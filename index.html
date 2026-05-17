@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ar">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="./resources/ol.css">
+        <link rel="stylesheet" href="resources/fontawesome-all.min.css">
+        <link rel="stylesheet" type="text/css" href="resources/horsey.min.css">
+        <link rel="stylesheet" type="text/css" href="resources/ol-search-layer.min.css">
+        <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="./resources/qgis2web.css">
+        <style>
+            
+.map-title {
+    position: absolute;
+    top: 1vh;
+    right: 0;
+    background-color: #2c3e50cb;
+    color: #fff;
+    font-family: 'Al Jazeera Arabic Regular', 'Jazeera', sans-serif;
+    font-size: clamp(12px, 2vw, 18px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: 90vw;
+    padding: 8px 12px;
+    font-weight: 500;
+    z-index: 100000 !important;
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+@media (1500px <= width <= 3000px) {
+    .map-title {
+        width: 55vw;
+        padding: 5px;
+        font-size: 20px !important;
+    }
+}
+
+@media (700px <= width <= 1500px) {
+    .map-title {
+        width: 60vw;
+        border-bottom-right-radius: 0%;
+        border-top-right-radius: 0%;
+        max-height: 19vh;
+        font-size: 14.5px !important;
+    }
+}
+@media (400px <= width <= 700px) {    
+    .map-title {
+        border-bottom-right-radius: 0%;
+        border-top-right-radius: 0%;
+        width: 50vw;
+        max-height: 5.5vh !important;
+        font-size: 9.5px !important;
+    }
+}
+@media (200px <= width <= 400px) {    
+    .map-title {
+        border-bottom-right-radius: 0%;
+        border-top-right-radius: 0%;
+        width: 63vw;
+        max-height: 25vh !important;
+        font-size: 7.5px !important;
+    }
+}
+@media (400px <= width <= 700px) {    
+    .map-title img {
+        max-height: 26px !important;
+    }
+}
+.map-title img {
+    max-height: 30px ;
+    
+}
+
+
+.map-title img{
+    margin-right: 10px;
+}
+        html, body {
+            background-color: #ffffff;
+        }
+        .ol-control > * {
+            background-color: #2c3e5000!important;
+            color: #ffffff!important;
+            border-radius: 0px;
+        }
+        .ol-attribution a, .gcd-gl-input::placeholder, .search-layer-input-search::placeholder {
+            color: #ffffff!important;
+        }
+        .search-layer-input-search {
+            background-color: #2c3e50cb!important;
+        }
+        
+        .ol-control {
+            background-color: #2c3e50 !important;
+            padding: 0px !important;
+        } 
+        </style>
+
+        <style>
+        #map {
+            width: 100%;
+            height: 80%;
+            position: relative; 
+            
+        }
+        </style>
+        <title>توزيع مستويات قيمة الإيجار القديم</title>
+    </head>
+    <body>
+        <div id="map">
+           <div id="map-title" class="map-title">
+                <img src="images/Asset .png" alt="logo" style="height:40px;margin-right:20px;"> خريطة توزيع مستويات القيمة الإيجارية المتوسطة وفقًا للقرار رقم 312 لسنة 2025 عن محافظة الإسكندرية
+           </div>
+           <div id="popup" class="ol-popup">
+               <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+           <div id="popup-content"></div>
+           </div>
+        <div id="legend">
+        <div id="legendPanel">
+        <img src="images/legend2.png" alt="Legend" class="legend-img">
+        <button id="legendToggle">
+            <span class="icon">☰</span>
+            <span class="legend-text">دليل الألوان والرموز</span>
+        </button>
+    </div>
+</div>
+        <div id="top-left-container"> 
+          <div id="fullscreen">
+            <button id="fullscreenToggle" title="خريطة بملء الشاشة">
+            <span class="icon">⛶</span>
+            </button>
+          </div>
+        <div id="custom-box" title="معلومات عن الخريطة" onclick="toggleMessageBox()">
+           i
+        <div id="message-box" style="display: none;">
+أُنتجت هذه الخريطة بناءً على القرار رقم 312 الصادر عن محافظة الإسكندرية، بشأن تحديد القيم الإيجارية للوحدات السكنية التي كانت خاضعة لقانون الإيجار القديم. وقد قسّم القرار مناطق الإسكندرية المختلفة إلى ثلاثة مستويات إيجارية (مناطق: متميزة، ومتوسطة، واقتصادية).
+        كما تم الاعتماد على كلٍّ من الأتي لرسم حدود المناطق على الخريطة:<br /> 1- الصفحة الرسمية لمحافظة الإسكندرية<br />
+         2- خرائط تاريخية لحي الجمرك 
+         من مركز الدراسات السكندرية (CEALex)
+         <br />OpenStreetMaps -3  
+         <br />4- صور Google Earth 
+        </div>
+        </div>
+        <div id="controls-wrapper"></div>  
+        </div>
+</div>
+    <div id="footer">
+         <div class="footer-section">
+          <a href="file:///G:/external%20work%20(test)/final%20interactive%20map%20production/final%20layers%20for%20interactive%20map/interactive%20map/final%20maps/Map%20of%20Old%20Rent%20Levels7%20-%20low%20level/index.html"> <button id="btn1">مناطق المستوى الاقتصادي</button> </a>
+            <img src="images/low level.jpg">
+         </div> 
+         <div class="footer-section">
+            <a href="file:///G:/external%20work%20(test)/final%20interactive%20map%20production/final%20layers%20for%20interactive%20map/interactive%20map/final%20maps/Map%20of%20Old%20Rent%20Levels5%20-%20high%20level/index.html"><button id="btn2">مناطق المستوى المتميز</button></a> 
+            <img src="images/high level.jpg">
+         </div>   
+    </div>
+</body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="resources/qgis2web_expressions.js"></script>
+        <script src="resources/proj4.js"></script>
+        <script>proj4.defs('EPSG:32635','+proj=utm +zone=35 +datum=WGS84 +units=m +no_defs');</script>
+        <script src="./resources/functions.js"></script>
+        <script src="./resources/ol.js"></script>
+        <script src="resources/horsey.min.js"></script>
+        <script src="resources/ol-search-layer.js"></script>
+        <script src="./resources/ol-ext.js"></script>
+        <script src="https://unpkg.com/elm-pep"></script>
+        <script src="resources/photon-geocoder-autocomplete.min.js"></script>
+        <script src="layers/_1.js"></script><script src="layers/GOVERNORATE_2.js"></script><script src="layers/BASE_MAP_FINAL_3.js"></script><script src="layers/FATA_FINAL4_4.js"></script><script src="layers/STREETS_5.js"></script><script src="layers/BOUNDARIES_FINAL_6.js"></script>
+        <script src="styles/_1_style.js"></script><script src="styles/GOVERNORATE_2_style.js"></script><script src="styles/BASE_MAP_FINAL_3_style.js"></script><script src="styles/FATA_FINAL4_4_style.js"></script><script src="styles/STREETS_5_style.js"></script><script src="styles/BOUNDARIES_FINAL_6_style.js"></script>
+        <script src="./layers/layers.js" type="text/javascript"></script> 
+        <script src="./resources/Autolinker.min.js"></script>
+        <script src="./resources/qgis2web.js"></script>
+    </body>
+</html>
